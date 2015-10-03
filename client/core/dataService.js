@@ -15,41 +15,13 @@
     function dataService($log, $http, $q) {
 
         var service = {
-            getOneUser: getOneUser,
-            updateOneUser: updateOneUser,
-            postOneUser: postOneUser,
-            deleteOneUser: deleteOneUser,
-            getManyUsers: getManyUsers
+            getData: getData
         };
 
         return service;
 
-        function getOneUser(userInput) {
-            return $http.get('/api/user/' + userInput)
-                .then(success)
-                .catch(fail);
-        }
-
-        function postOneUser(userInput) {
-            return $http.post('/api/user', userInput)
-                .then(success)
-                .catch(fail);
-        }
-
-        function updateOneUser(username, updatedUser) {
-            return $http.put('/api/user/' + username, updatedUser)
-                .then(success)
-                .catch(fail);
-        }
-
-        function deleteOneUser(userInput) {
-            return $http.delete('/api/user/' + userInput.username, userInput)
-                .then(success)
-                .catch(fail);
-        }
-
-        function getManyUsers() {
-            return $http.get('/api/user')
+        function getData(filename) {
+            return $http.get('/api/' + filename)
                 .then(success)
                 .catch(fail);
         }

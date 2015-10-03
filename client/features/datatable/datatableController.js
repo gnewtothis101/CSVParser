@@ -9,14 +9,19 @@
     angular.module('datatable.module')
         .controller('datatableController', datatableController);
 
-    datatableController.$inject = ['$log', '$state', '$stateParams'];
+    datatableController.$inject = ['$log', '$state', '$stateParams', 'dataService'];
 
-    function datatableController($log, $state, $stateParams) {
+    function datatableController($log, $state, $stateParams, dataService) {
         var vm = this;
 
-        vm.foo = 'something';
-
         vm.filename = $stateParams.filename;
+
+
+        function populate() {
+            dataService.getData(vm.filename);
+        }
+
+        populate();
 
     }
 

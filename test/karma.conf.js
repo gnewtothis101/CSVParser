@@ -36,9 +36,6 @@ module.exports = function(config) {
             'node_modules/sinon-chai/lib/sinon-chai.js',
             'client/bower_components/bardjs/dist/bard.js',
 
-            // Mock data
-            'test/testhelpers/mockData.js',
-
             // App module
             'client/app.module.js',
             'client/app.routes.js',
@@ -47,21 +44,18 @@ module.exports = function(config) {
             'client/core/core.module.js',
             'client/core/dataService.js',
             'client/core/dataService.spec.js',
-            'client/core/authService.js',
-            'client/core/authService.spec.js',
 
             // Home module
-            'client/home/home.module.js',
-            'client/home/home.routes.js',
-            'client/home/homeController.js',
-            'client/home/homeController.spec.js',
+            'client/features/home/home.module.js',
+            'client/features/home/home.routes.js',
+            'client/features/home/homeController.js',
+            'client/features/home/homeController.spec.js',
 
             // Datatable module
-            'client/datatable/datatable.module.js',
-            'client/datatable/datatable.routes.js',
-            'client/datatable/datatableController.js',
-            'client/datatable/datatableController.spec.js'
-
+            'client/features/datatable/datatable.module.js',
+            'client/features/datatable/datatable.routes.js',
+            'client/features/datatable/datatableController.js',
+            'client/features/datatable/datatableController.spec.js'
 
         ],
 
