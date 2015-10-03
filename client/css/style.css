@@ -1,0 +1,38 @@
+/*======================================
+=              MAIN SASS               =
+======================================*/
+/*===================================
+=            NAVBAR SASS            =
+===================================*/
+.user-btn {
+  margin-top: 5px; }
+
+/*====================================
+=            MEMBERS SASS            =
+====================================*/
+a.member-card-link {
+  color: #333;
+  text-decoration: none; }
+
+/*=========================================
+=            USER PROFILE SASS            =
+=========================================*/
+.avatar-img, .username-text {
+  display: block; }
+
+.user-profile img, .user-profile p {
+  margin: 0 auto; }
+
+/*==========  GENERAL PURPOSE STYLING  ==========*/
+body {
+  padding-top: 65px; }
+
+.grow {
+  transition: all .2s ease-in; }
+  .grow:hover {
+    transform: scale(1.025); }
+
+.mini-gravatar {
+  margin-right: 10px;
+  width: 25px;
+  height: auto; }
