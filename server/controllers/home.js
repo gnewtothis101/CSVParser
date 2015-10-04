@@ -4,9 +4,13 @@
 =====================================*/
 var express = require('express');
 var router = express.Router();
-var fs = require('fs')
-var mongoose = require('mongoose');
-var User = mongoose.model('User');
+var fs = require('fs');
+
+var mongo = require('mongodb');
+var Grid = require('gridfs-stream');
+var db = new mongo.Db('CSVParser', new mongo.Server('127.0.0.1', 27017));
+
+
 var multer = require('multer');
 var storage = multer.diskStorage({
     destination: function(req, file, callback) {
@@ -59,19 +63,33 @@ router.get('/', function(req, res, next) {
 =            UPLOAD API            =
 ==================================*/
 router.post('/api/upload', upload.single('uploadedFile'), function(req, res, next) {
-    res.redirect('/#/datatable/' + req.file.filename);
+    db.open(function(error) {
+        if (error) {
+            console.log(error);
+        }
+        var gfs = Grid(db, mongo);
+        var writestream = gfs.createWriteStream({
+            filename: req.file.filename
+        });
+        fs.createReadStream('./upload/' + req.file.filename).pipe(writestream);
+
+        writestream.on('close', function(file) {
+            fs.unlink('./upload/' + req.file.filename);
+            res.redirect('/#/datatable/' + req.file.filename);
+            // res.send(file.filename + ' has been uploaded.');
+        });
+    });
 });
 
 router.get('/api/:filename', function(req, res) {
 
     var filename = req.params.filename;
 
-    var JSONResponse = {};
-
-    fs.readFile('./upload/' + filename, function(error, data) {
+    db.open(function(error) {
         if (error) {
             console.log(error);
         }
+        var gfs = Grid(db, mongo);
 
         // Create the header object, to later be populated.
         parser.header = null;
@@ -113,17 +131,19 @@ router.get('/api/:filename', function(req, res) {
 
         var jsonToStrings = JSONStream.stringify();
 
-        var readStream = fs.createReadStream('./upload/' + filename);
-        readStream
+        var readstream = gfs.createReadStream({
+            filename: req.params.filename
+        });
+
+        readstream
             .pipe(csvToJson)
             .pipe(parser)
             .pipe(jsonToStrings)
             .pipe(res);
 
-        readStream.on('error', function(error) {
+        readstream.on('error', function(error) {
             res.end(error);
         });
-
     });
 
 });
