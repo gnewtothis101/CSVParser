@@ -19,7 +19,9 @@
         function populate() {
             dataService.getData(vm.filename)
                 .then(function(data) {
+                    vm.header = data.shift().header;
                     vm.data = data;
+                    $log.info(vm.data);
                 });
         }
 

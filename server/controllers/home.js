@@ -103,17 +103,10 @@ router.get('/api/:filename', function(req, res) {
             } else {
 
                 // Format data
-                var currentData = util.formatRow(data);
-                var currentArray = [
-                    currentData[0],
-                    currentData[1],
-                    currentData[2],
-                    currentData[3],
-                    currentData[4],
-                ];
+                var currentData = util.formatRow(data, this.header.key);
 
                 // Begin pushing data rows
-                this.push(currentArray);
+                this.push(currentData);
             }
             done();
         };

@@ -1,8 +1,11 @@
-<div class="col-xs-12 col-xs-8 col-xs-offset-2">
+<div class="panel panel-default col-xs-12 col-xs-8 col-xs-offset-2">
+    <div class="panel-heading">{{vm.header.filename}} uploaded on {{vm.header.timestamp}}</div>
     <table class="table table-hover">
         <tr>
-            <th ng-repeat="headerKey in vm.data[0].header.key">{{headerKey}}</th>
+            <th ng-repeat="headerKey in vm.header.key">{{headerKey}}</th>
         </tr>
-        <!-- <tr ng-repeat="row in vm.data">{{row}}</tr> -->
+        <tr ng-repeat="row in vm.data">
+            <td>{{row.Name}}</td>
+        </tr>
     </table>
 </div>
