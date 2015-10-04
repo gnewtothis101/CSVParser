@@ -4,18 +4,18 @@
 
 'use strict';
 
-describe('Controller: homeController', function() {
+describe('Controller: uploadController', function() {
 
     beforeEach(module('home.module'));
 
-    var homeController;
+    var uploadController;
 
     beforeEach(inject(function($controller) {
-        homeController = $controller('homeController', {});
+        uploadController = $controller('uploadController', {});
     }));
 
     it('Should define foo', function() {
-        expect(homeController.foo).to.exist;
+        expect(uploadController.foo).to.exist;
     });
 
 });

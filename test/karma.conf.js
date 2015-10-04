@@ -55,7 +55,19 @@ module.exports = function(config) {
             'client/features/datatable/datatable.module.js',
             'client/features/datatable/datatable.routes.js',
             'client/features/datatable/datatableController.js',
-            'client/features/datatable/datatableController.spec.js'
+            'client/features/datatable/datatableController.spec.js',
+
+            // Upload module
+            'client/features/upload/upload.module.js',
+            'client/features/upload/upload.routes.js',
+            'client/features/upload/uploadController.js',
+            'client/features/upload/uploadController.spec.js',
+
+            // Files module
+            'client/features/files/files.module.js',
+            'client/features/files/files.routes.js',
+            'client/features/files/filesController.js',
+            'client/features/files/filesController.spec.js',
 
         ],
 
