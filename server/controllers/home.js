@@ -8,10 +8,17 @@ var fs = require('fs')
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var multer = require('multer');
-var upload = multer({
-    dest: './upload/'
+var storage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, './upload/');
+    },
+    filename: function(req, file, callback) {
+        callback(null, util.formatFilename(file.originalname) + '__' + Date.now());
+    }
 });
-
+var upload = multer({
+    storage: storage
+});
 
 var Transform = require('stream').Transform;
 
@@ -34,8 +41,6 @@ var parser = new Transform({
     objectMode: true
 });
 
-
-
 module.exports = function(app) {
     app.use('/', router);
 };
@@ -53,11 +58,7 @@ router.get('/', function(req, res, next) {
 /*==================================
 =            UPLOAD API            =
 ==================================*/
-router.post('/api/upload', multer({
-    dest: './upload/'
-}).single('uploadedFile'), function(req, res) {
-    console.log(req.body);
-    console.log(req.file);
+router.post('/api/upload', upload.single('uploadedFile'), function(req, res, next) {
     res.redirect('/#/datatable/' + req.file.filename);
 });
 
@@ -77,7 +78,7 @@ router.get('/api/:filename', function(req, res) {
 
         // Create a raw header, to manipulate data before being
         // pushed to the actual header.
-        parser._rawHeader = [];
+        parser._rawHeader = {};
 
         parser._transform = function(data, encoding, done) {
             if (!this.header) {
@@ -86,8 +87,9 @@ router.get('/api/:filename', function(req, res) {
                 var timestamp = util.getFormattedDate();
 
                 // Push to _rawHeader
-                this._rawHeader.push(timestamp);
-                this._rawHeader.push(filename);
+                this._rawHeader.timestamp = timestamp;
+                this._rawHeader.filename = filename.split('__')[0] + '.csv';
+                this._rawHeader.key = data;
 
                 // Push _rawHeader to header
                 this.header = this._rawHeader;
@@ -100,10 +102,18 @@ router.get('/api/:filename', function(req, res) {
                 // Once header information has been set
             } else {
 
+                // Format data
+                var currentData = util.formatRow(data);
+                var currentArray = [
+                    currentData[0],
+                    currentData[1],
+                    currentData[2],
+                    currentData[3],
+                    currentData[4],
+                ];
+
                 // Begin pushing data rows
-                this.push({
-                    row: util.removeNewlines(data)
-                });
+                this.push(currentArray);
             }
             done();
         };
@@ -116,8 +126,6 @@ router.get('/api/:filename', function(req, res) {
             .pipe(parser)
             .pipe(jsonToStrings)
             .pipe(res);
-
-        // .pipe(fs.createWriteStream("output/csv.json"));
 
         readStream.on('error', function(error) {
             res.end(error);

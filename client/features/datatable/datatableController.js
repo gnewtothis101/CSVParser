@@ -16,9 +16,11 @@
 
         vm.filename = $stateParams.filename;
 
-
         function populate() {
-            dataService.getData(vm.filename);
+            dataService.getData(vm.filename)
+                .then(function(data) {
+                    vm.data = data;
+                });
         }
 
         populate();

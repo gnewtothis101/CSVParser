@@ -32,7 +32,7 @@
         }
 
         function fail(error) {
-            var msg = 'Query for user(s) failed. ' + error.data.description;
+            var msg = 'Query failed. ' + error.data.description;
             $log.error(msg);
             return $q.reject(msg);
         }
