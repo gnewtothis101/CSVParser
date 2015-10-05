@@ -21,8 +21,8 @@
             vm.reverse = !vm.reverse;
         };
 
-        vm.sortNumber = function() {
-            vm.sortKey = 'Record Number';
+        vm.sortNumber = function(keyname) {
+            vm.sortKey = '\u0022' + keyname + '\u0022';
             vm.reverse = !vm.reverse;
         };
 
