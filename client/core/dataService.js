@@ -15,13 +15,20 @@
     function dataService($log, $http, $q) {
 
         var service = {
-            getData: getData
+            getCSV: getCSV,
+            getAllFiles: getAllFiles
         };
 
         return service;
 
-        function getData(filename) {
+        function getCSV(filename) {
             return $http.get('/api/' + filename)
+                .then(success)
+                .catch(fail);
+        }
+
+        function getAllFiles() {
+            return $http.get('/api/upload')
                 .then(success)
                 .catch(fail);
         }

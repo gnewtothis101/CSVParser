@@ -17,7 +17,7 @@
         vm.filename = $stateParams.filename;
 
         function populate() {
-            dataService.getData(vm.filename)
+            dataService.getCSV(vm.filename)
                 .then(function(data) {
                     vm.header = data.shift().header;
                     vm.data = data;

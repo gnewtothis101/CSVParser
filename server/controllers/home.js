@@ -37,15 +37,6 @@ var JSONStream = require('JSONStream');
 
 var util = require('../modules/utilityFunctions.js');
 
-var csvToJson = csv({
-    objectMode: true,
-    delimiter: '|'
-});
-
-var parser = new Transform({
-    objectMode: true
-});
-
 module.exports = function(app) {
     app.use('/', router);
 };
@@ -84,24 +75,6 @@ router.post('/api/upload', upload.single('uploadedFile'), function(req, res, nex
 router.get('/api/upload', function(req, res) {
 
     var jsonResponse = [];
-    // var findFiles = function(db, callback) {
-    //     var cursor = db.collection('fs.files').find();
-    //     cursor.each(function(error, data) {
-    //         if (error) {
-    //             console.log(error);
-    //         } else {
-    //             if (data !== null) {
-    //                 var formattedObject = {};
-    //                 formattedObject.filename = data.filename.split('__')[0];
-    //                 formattedObject.uplpoadDate = data.uploadDate;
-    //                 jsonResponse.push(formattedObject);
-
-    //             }
-    //             callback();
-    //         }
-    //     });
-    // };
-
     MongoClient.connect('mongodb://localhost/CSVParser', function(error, db) {
         if (error) {
             console.log(error);
@@ -110,16 +83,18 @@ router.get('/api/upload', function(req, res) {
                 if (error) {
                     console.log(error);
                 } else {
-                    jsonResponse = data;
+                    data.forEach(function(item) {
+                        var responseObject = {};
+                        responseObject.filename = item.filename;
+                        responseObject.uploadDate = item.uploadDate;
+                        jsonResponse.push(responseObject);
+                    });
                 }
                 db.on('close', function() {
                     res.json(jsonResponse);
                 });
                 db.close();
             });
-            // findFiles(db, function(data) {
-            //     db.close();
-            // });
         }
     });
 });
@@ -132,7 +107,23 @@ router.get('/api/:filename', function(req, res) {
         if (error) {
             console.log(error);
         }
+
         var gfs = Grid(db, mongo);
+
+        var csvToJson = csv({
+            objectMode: true,
+            delimiter: '|'
+        });
+
+        var parser = new Transform({
+            objectMode: true
+        });
+
+        var jsonToStrings = JSONStream.stringify();
+
+        var readstream = gfs.createReadStream({
+            filename: req.params.filename
+        });
 
         // Create the header object, to later be populated.
         parser.header = null;
@@ -171,12 +162,6 @@ router.get('/api/:filename', function(req, res) {
             }
             done();
         };
-
-        var jsonToStrings = JSONStream.stringify();
-
-        var readstream = gfs.createReadStream({
-            filename: req.params.filename
-        });
 
         readstream
             .pipe(csvToJson)
