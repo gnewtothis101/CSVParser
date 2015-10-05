@@ -7,7 +7,6 @@
 /*==========  DEPENDENCIES  ==========*/
 var express = require('express');
 var glob = require('glob');
-// var mongoose = require('mongoose');
 var app = express();
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -18,18 +17,6 @@ var exphbs = require('express-handlebars');
 var path = require('path');
 var rootPath = path.normalize(__dirname + '/');
 var port = process.env.PORT || 3000;
-
-/*==========  DATABASE  ==========*/
-// mongoose.connect('mongodb://localhost/CSVParser', function(error) {
-//     if (error) {
-//         console.log(error);
-//     }
-// });
-// var db = mongoose.connection;
-// db.on('error', function() {
-//     throw new Error('unable to connect to database at mongodb://localhost/CSVParser');
-// });
-
 
 /*==========  MODEL REQUIRE  ==========*/
 var models = glob.sync(rootPath + '/server/models/*.js');

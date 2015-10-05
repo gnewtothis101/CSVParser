@@ -6,10 +6,11 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 
+
+var MongoClient = require('mongodb').MongoClient;
 var mongo = require('mongodb');
 var Grid = require('gridfs-stream');
 var db = new mongo.Db('CSVParser', new mongo.Server('127.0.0.1', 27017));
-
 
 var multer = require('multer');
 var storage = multer.diskStorage({
@@ -76,8 +77,50 @@ router.post('/api/upload', upload.single('uploadedFile'), function(req, res, nex
         writestream.on('close', function(file) {
             fs.unlink('./upload/' + req.file.filename);
             res.redirect('/#/datatable/' + req.file.filename);
-            // res.send(file.filename + ' has been uploaded.');
         });
+    });
+});
+
+router.get('/api/upload', function(req, res) {
+
+    var jsonResponse = [];
+    // var findFiles = function(db, callback) {
+    //     var cursor = db.collection('fs.files').find();
+    //     cursor.each(function(error, data) {
+    //         if (error) {
+    //             console.log(error);
+    //         } else {
+    //             if (data !== null) {
+    //                 var formattedObject = {};
+    //                 formattedObject.filename = data.filename.split('__')[0];
+    //                 formattedObject.uplpoadDate = data.uploadDate;
+    //                 jsonResponse.push(formattedObject);
+
+    //             }
+    //             callback();
+    //         }
+    //     });
+    // };
+
+    MongoClient.connect('mongodb://localhost/CSVParser', function(error, db) {
+        if (error) {
+            console.log(error);
+        } else {
+            db.collection('fs.files').find().toArray(function(error, data) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    jsonResponse = data;
+                }
+                db.on('close', function() {
+                    res.json(jsonResponse);
+                });
+                db.close();
+            });
+            // findFiles(db, function(data) {
+            //     db.close();
+            // });
+        }
     });
 });
 
