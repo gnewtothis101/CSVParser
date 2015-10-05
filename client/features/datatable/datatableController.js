@@ -16,6 +16,16 @@
 
         vm.filename = $stateParams.filename;
 
+        vm.sort = function(keyname) {
+            vm.sortKey = keyname;
+            vm.reverse = !vm.reverse;
+        };
+
+        vm.sortNumber = function() {
+            vm.sortKey = 'Record Number';
+            vm.reverse = !vm.reverse;
+        };
+
         function populate() {
             dataService.getCSV(vm.filename)
                 .then(function(data) {

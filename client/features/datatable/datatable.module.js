@@ -8,7 +8,8 @@
 
     angular
         .module('datatable.module', [
-            'ui.router'
+            'ui.router',
+            'angularUtils.directives.dirPagination'
         ]);
 
 })();
