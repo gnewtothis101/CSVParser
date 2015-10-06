@@ -9,14 +9,19 @@ describe('Controller: datatableController', function() {
     var controller;
     var ds;
     var sp;
+    var mockfile = [{
+            header: 'mock1'
+        },
+        'mock2'
+    ];
 
     beforeEach(function() {
         bard.appModule('datatable.module');
         bard.inject('$controller', '$q', '$rootScope');
 
         ds = {
-            getData: function() {
-                return $q.when(mockFile.filename);
+            getCSV: function() {
+                return $q.when(mockfile);
             }
         };
 

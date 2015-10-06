@@ -33,6 +33,7 @@ module.exports = function(config) {
             'client/bower_components/angular-ui-router/release/angular-ui-router.js',
             'client/bower_components/angular-md5/angular-md5.min.js',
             'client/bower_components/ngstorage/ngStorage.min.js',
+            'client/bower_components/angularUtils-pagination/dirPagination.js',
             'node_modules/sinon-chai/lib/sinon-chai.js',
             'client/bower_components/bardjs/dist/bard.js',
 
@@ -45,24 +46,11 @@ module.exports = function(config) {
             'client/core/dataService.js',
             'client/core/dataService.spec.js',
 
-            // Home module
-            'client/features/home/home.module.js',
-            'client/features/home/home.routes.js',
-            'client/features/home/homeController.js',
-            'client/features/home/homeController.spec.js',
-
             // Datatable module
             'client/features/datatable/datatable.module.js',
             'client/features/datatable/datatable.routes.js',
             'client/features/datatable/datatableController.js',
-            'client/features/datatable/datatableController.spec.js',
-
-            // Files module
-            // 'client/features/files/files.module.js',
-            // 'client/features/files/files.routes.js',
-            // 'client/features/files/filesController.js',
-            // 'client/features/files/filesController.spec.js',
-
+            'client/features/datatable/datatableController.spec.js'
         ],
 
         // list of files / patterns to exclude

@@ -19,8 +19,6 @@
         .state('home', {
             url: '/home',
             templateUrl: '/templates/homeView.html',
-            controller: 'homeController',
-            controllerAs: 'vm'
         });
 
     }

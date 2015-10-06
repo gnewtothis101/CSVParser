@@ -23,7 +23,6 @@
             vm.reverse = !vm.reverse;
         };
 
-
         // Retrieves data, the first item in the data array is always the header.
         // Header item is removed from data object and put into vm.header leaving
         // just data rows in vm.data.

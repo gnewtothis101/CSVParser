@@ -41,7 +41,7 @@ describe('dataService: ', function() {
                 .when('GET', '/api/upload')
                 .respond(200, mockFile);
 
-            dataService.getCSV(mockFile.filename)
+            dataService.getAllFiles(mockFile.filename)
                 .then(function(data) {
                     expect(data).to.exist;
                     expect(data).to.eql(mockFile);
