@@ -117,6 +117,10 @@ module.exports = function(grunt) {
                 src: 'server/**',
                 dest: 'dist/'
             },
+            env: {
+                src: 'env.js',
+                dest:'dist/'
+            },
             procfile: {
                 src: 'Procfile',
                 dest: 'dist/'

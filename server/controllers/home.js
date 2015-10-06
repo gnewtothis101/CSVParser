@@ -6,11 +6,14 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 
+// Environment variables
+require('../../env.js');
+
 // Database stuff
 var MongoClient = require('mongodb').MongoClient;
 var mongo = require('mongodb');
 var Grid = require('gridfs-stream');
-var db = new mongo.Db('CSVParser', new mongo.Server('127.0.0.1', 27017));
+// var db = new mongo.Db('csvparser', new mongo.Server(process.env.MONGOLAB_URI));
 
 // Upload stuff
 var multer = require('multer');
@@ -60,7 +63,7 @@ router.get('/', function(req, res, next) {
 router.post('/api/upload', upload.single('uploadedFile'), function(req, res, next) {
 
     // Open db
-    db.open(function(error) {
+    MongoClient.connect(process.env.MONGOLAB_URI, function(error, db) {
         if (error) {
             console.log(error);
         }
@@ -88,7 +91,7 @@ router.get('/api/upload', function(req, res) {
     var jsonResponse = [];
 
     // Connect to db
-    MongoClient.connect('mongodb://localhost/CSVParser', function(error, db) {
+    MongoClient.connect(process.env.MONGOLAB_URI, function(error, db) {
         if (error) {
             console.log(error);
         } else {
@@ -129,7 +132,7 @@ router.get('/api/:filename', function(req, res) {
     var filenameDate = filename.split('__')[1];
 
     // Open db
-    db.open(function(error) {
+    MongoClient.connect(process.env.MONGOLAB_URI, function(error, db) {
         if (error) {
             console.log(error);
         }
