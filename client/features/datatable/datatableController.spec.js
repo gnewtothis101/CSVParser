@@ -9,11 +9,6 @@ describe('Controller: datatableController', function() {
     var controller;
     var ds;
     var sp;
-    var mockFile = [
-        {},
-        {},
-        {}
-    ];
 
     beforeEach(function() {
         bard.appModule('datatable.module');
@@ -42,6 +37,11 @@ describe('Controller: datatableController', function() {
             });
             it('Should equal $stateParams.filename', function() {
                 expect(controller.filename).to.eql(sp.filename);
+            });
+        });
+        describe('vm.sort', function() {
+            it('Should exist', function() {
+                expect(controller.sort).to.exist;
             });
         });
     });
