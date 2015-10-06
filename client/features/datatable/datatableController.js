@@ -17,11 +17,6 @@
         vm.filename = $stateParams.filename;
 
         vm.sort = function(keyname) {
-            vm.sortKey = keyname;
-            vm.reverse = !vm.reverse;
-        };
-
-        vm.sortNumber = function(keyname) {
             vm.sortKey = '\u0022' + keyname + '\u0022';
             vm.reverse = !vm.reverse;
         };
@@ -31,7 +26,6 @@
                 .then(function(data) {
                     vm.header = data.shift().header;
                     vm.data = data;
-                    $log.info(vm.data);
                 });
         }
 

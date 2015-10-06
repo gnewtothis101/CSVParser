@@ -18,7 +18,7 @@ var storage = multer.diskStorage({
         callback(null, './upload/');
     },
     filename: function(req, file, callback) {
-        callback(null, util.formatFilename(file.originalname) + '__' + Date.now());
+        callback(null, util.formatFilename(file.originalname) + '__' + (new Date().getTime() / 1000).toString().split('.')[0]);
     }
 });
 var upload = multer({
@@ -103,6 +103,8 @@ router.get('/api/:filename', function(req, res) {
 
     var filename = req.params.filename;
 
+    var filenameDate = filename.split('__')[1];
+
     db.open(function(error) {
         if (error) {
             console.log(error);
@@ -136,7 +138,7 @@ router.get('/api/:filename', function(req, res) {
             if (!this.header) {
 
                 // Create the header information
-                var timestamp = util.getFormattedDate();
+                var timestamp = util.getFormattedDate(filenameDate);
 
                 // Push to _rawHeader
                 this._rawHeader.timestamp = timestamp;

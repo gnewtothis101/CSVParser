@@ -9,6 +9,9 @@
 function toObject(arr, headerKey) {
     var rv = {};
     for (var i = 0; i < arr.length; ++i) {
+        if (!isNaN(arr[i])) {
+            arr[i] = parseInt(arr[i]);
+        }
         if (arr[i] !== undefined) {
             rv[headerKey[i]] = arr[i];
         }
@@ -16,11 +19,22 @@ function toObject(arr, headerKey) {
     return rv;
 }
 
+utilityFunctions.prototype.getDateForUpload = function() {
+    var time = new Date();
+    var year = time.getFullYear();
+    var month = time.getMonth() + 1;
+    var date1 = time.getDate();
+    var hour = time.getHours();
+    var minutes = time.getMinutes();
+    var seconds = time.getSeconds();
+    return year + "-" + month + "-" + date1 + "." + hour + ":" + minutes + ":" + seconds;
+};
+
 function utilityFunctions() {}
 
-// Formats date
-utilityFunctions.prototype.getFormattedDate = function() {
-    return new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+utilityFunctions.prototype.getFormattedDate = function(filenameDate) {
+    var date = new Date(filenameDate*1000);
+    return date.toString();
 };
 
 utilityFunctions.prototype.formatRow = function(dataRow, headerKey) {

@@ -20,6 +20,10 @@
         function populate() {
             dataService.getAllFiles()
                 .then(function(data) {
+                    data.forEach(function(item) {
+                        item.formattedFilename = item.filename.split('__')[0];
+                        item.formattedDate = item.uploadDate.split('T')[0];
+                    });
                     vm.files = data;
                 });
         }

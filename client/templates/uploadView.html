@@ -1,6 +1,9 @@
 <div class="col-xs-12 col-sm-8 col-sm-offset-2">
     <form id="uploadForm" enctype="multipart/form-data" action="/api/upload" method="post">
+    <label for="filename" class="uploadLabel btn btn-default">
+    Select a file
         <input type="file" id="filename" name="uploadedFile">
-        <input type="submit" id="submit" value="Upload File" name="submit">
+    </label>
+        <input type="submit" id="submit" value="Upload File" class="btn btn-default" name="submit">
     </form>
 </div>

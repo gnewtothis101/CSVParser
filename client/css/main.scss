@@ -3,24 +3,11 @@
 ======================================*/
 
 @import './partials/navbar';
-@import './partials/members';
-@import './partials/userProfile';
+@import './partials/datatable';
+@import './partials/upload';
 
 /*==========  GENERAL PURPOSE STYLING  ==========*/
 
 body {
     padding-top: 65px;
-}
-
-.grow {
-    transition: all .2s ease-in;
-    &:hover {
-        transform: scale(1.025);
-    }
-}
-
-.mini-gravatar {
-    margin-right: 10px;
-    width: 25px;
-    height: auto;
 }

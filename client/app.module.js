@@ -11,7 +11,6 @@
         'home.module',
         'datatable.module',
         'files.module',
-        'upload.module',
         'ui.bootstrap',
         'ui.router',
     ]);
