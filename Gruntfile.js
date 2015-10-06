@@ -108,6 +108,10 @@ module.exports = function(grunt) {
                 src: 'client/templates/**',
                 dest: 'dist/'
             },
+            upload: {
+                src: 'upload/',
+                dest: 'dist/'
+            },
             server: {
                 expand: true,
                 src: 'server/**',
@@ -116,6 +120,14 @@ module.exports = function(grunt) {
             app: {
                 src: 'app.js',
                 dest: 'dist/app.js'
+            },
+            pkg: {
+                src: 'package.json',
+                dest: 'dist/package.json'
+            },
+            favicon: {
+                src: 'client/favicon.ico',
+                dest: 'dist/client/favicon.ico'
             }
         },
 
@@ -143,7 +155,10 @@ module.exports = function(grunt) {
                     useShortDoctype: true
                 },
                 files: {
-                    'dist/client/index.html': 'dist/client/index.html'
+                    'dist/client/index.html': 'dist/client/index.html',
+                    'dist/client/templates/homeView.html': 'dist/client/templates/homeView.html',
+                    'dist/client/templates/datatableView.html': 'dist/client/templates/datatableView.html',
+                    'dist/client/templates/filesView.html': 'dist/client/templates/filesView.html'
                 }
             }
         },
@@ -186,6 +201,9 @@ module.exports = function(grunt) {
         'copy:index',
         'copy:templates',
         'copy:server',
+        'copy:favicon',
+        'copy:pkg',
+        'copy:upload',
         'copy:app',
         'useminPrepare',
         'concat',
