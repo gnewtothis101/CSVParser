@@ -117,6 +117,10 @@ module.exports = function(grunt) {
                 src: 'server/**',
                 dest: 'dist/'
             },
+            procfile: {
+                src: 'Procfile',
+                dest: 'dist/'
+            },
             app: {
                 src: 'app.js',
                 dest: 'dist/app.js'
@@ -204,6 +208,7 @@ module.exports = function(grunt) {
         'copy:favicon',
         'copy:pkg',
         'copy:upload',
+        'copy:procfile',
         'copy:app',
         'useminPrepare',
         'concat',

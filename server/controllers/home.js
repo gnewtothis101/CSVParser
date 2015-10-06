@@ -6,12 +6,13 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 
-
+// Database stuff
 var MongoClient = require('mongodb').MongoClient;
 var mongo = require('mongodb');
 var Grid = require('gridfs-stream');
 var db = new mongo.Db('CSVParser', new mongo.Server('127.0.0.1', 27017));
 
+// Upload stuff
 var multer = require('multer');
 var storage = multer.diskStorage({
     destination: function(req, file, callback) {
@@ -25,6 +26,7 @@ var upload = multer({
     storage: storage
 });
 
+// Piping stuff
 var Transform = require('stream').Transform;
 
 // Package to parse CSV files and turn them into JSON.
@@ -35,6 +37,7 @@ var csv = require('csv-streamify');
 // Reference: https://github.com/dominictarr/JSONStream
 var JSONStream = require('JSONStream');
 
+// Custom utility module
 var util = require('../modules/utilityFunctions.js');
 
 module.exports = function(app) {
@@ -51,20 +54,27 @@ router.get('/', function(req, res, next) {
     res.send('index.html');
 });
 
-/*==================================
-=            UPLOAD API            =
-==================================*/
+/*================================
+=            FILE API            =
+================================*/
 router.post('/api/upload', upload.single('uploadedFile'), function(req, res, next) {
+
+    // Open db
     db.open(function(error) {
         if (error) {
             console.log(error);
         }
         var gfs = Grid(db, mongo);
+
+        // Write to db with filename matching the file uploaded
         var writestream = gfs.createWriteStream({
             filename: req.file.filename
         });
+
+        // Create readstream from upload folder, pipe to writestream...
         fs.createReadStream('./upload/' + req.file.filename).pipe(writestream);
 
+        // ...when writestream is closed, delete file from server folder and redirect to a page to view the file.
         writestream.on('close', function(file) {
             fs.unlink('./upload/' + req.file.filename);
             res.redirect('/#/datatable/' + req.file.filename);
@@ -74,15 +84,22 @@ router.post('/api/upload', upload.single('uploadedFile'), function(req, res, nex
 
 router.get('/api/upload', function(req, res) {
 
+    // Array to be filled with data to send to client
     var jsonResponse = [];
+
+    // Connect to db
     MongoClient.connect('mongodb://localhost/CSVParser', function(error, db) {
         if (error) {
             console.log(error);
         } else {
+
+            // Query db for all files in fs.files collection, return with an array as data
             db.collection('fs.files').find().toArray(function(error, data) {
                 if (error) {
                     console.log(error);
                 } else {
+
+                    // For each item in the array, send it's filename and upload date as a single object to the jsonResponse array.
                     data.forEach(function(item) {
                         var responseObject = {};
                         responseObject.filename = item.filename;
@@ -90,9 +107,13 @@ router.get('/api/upload', function(req, res) {
                         jsonResponse.push(responseObject);
                     });
                 }
+
+                // When all data has been recieved and db closes, respond to client with jsonResponse object
                 db.on('close', function() {
                     res.json(jsonResponse);
                 });
+
+                // Close the db
                 db.close();
             });
         }
@@ -101,15 +122,19 @@ router.get('/api/upload', function(req, res) {
 
 router.get('/api/:filename', function(req, res) {
 
+    // Cached filename
     var filename = req.params.filename;
 
+    // Pull the date out of :filename
     var filenameDate = filename.split('__')[1];
 
+    // Open db
     db.open(function(error) {
         if (error) {
             console.log(error);
         }
 
+        // Instantiate various piping tools
         var gfs = Grid(db, mongo);
 
         var csvToJson = csv({
@@ -123,6 +148,8 @@ router.get('/api/:filename', function(req, res) {
 
         var jsonToStrings = JSONStream.stringify();
 
+
+        // Create readstream from database where the filename is the url param
         var readstream = gfs.createReadStream({
             filename: req.params.filename
         });
@@ -165,6 +192,7 @@ router.get('/api/:filename', function(req, res) {
             done();
         };
 
+        // Actual piping
         readstream
             .pipe(csvToJson)
             .pipe(parser)
@@ -175,5 +203,4 @@ router.get('/api/:filename', function(req, res) {
             res.end(error);
         });
     });
-
 });
