@@ -211,6 +211,7 @@ module.exports = function(grunt) {
         'copy:server',
         'copy:favicon',
         'copy:pkg',
+        'copy:env',
         'copy:upload',
         'copy:procfile',
         'copy:app',
