@@ -58,10 +58,10 @@ module.exports = function(config) {
             'client/features/datatable/datatableController.spec.js',
 
             // Files module
-            'client/features/files/files.module.js',
-            'client/features/files/files.routes.js',
-            'client/features/files/filesController.js',
-            'client/features/files/filesController.spec.js',
+            // 'client/features/files/files.module.js',
+            // 'client/features/files/files.routes.js',
+            // 'client/features/files/filesController.js',
+            // 'client/features/files/filesController.spec.js',
 
         ],
 

@@ -14,13 +14,15 @@
     function filesController($log, $state, dataService) {
         var vm = this;
 
-        vm.foo = 'something';
+        // Where the files will go!
         vm.files;
 
         function populate() {
             dataService.getAllFiles()
                 .then(function(data) {
                     data.forEach(function(item) {
+
+                        // Attaches filename and date for display in the header
                         item.formattedFilename = item.filename.split('__')[0];
                         item.formattedDate = item.uploadDate.split('T')[0];
                     });
