@@ -5,6 +5,7 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
+var mkdirp = require('mkdirp');
 
 // Environment variables
 require('../../env.js');
@@ -61,6 +62,12 @@ router.get('/', function(req, res, next) {
 =            FILE API            =
 ================================*/
 router.post('/api/upload', upload.single('uploadedFile'), function(req, res, next) {
+
+    mkdirp('./upload', function(error) {
+        if (error) {
+            console.log(error);
+        }
+    });
 
     // Open db
     MongoClient.connect(process.env.MONGOLAB_URI, function(error, db) {

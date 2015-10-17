@@ -17,6 +17,15 @@ var exphbs = require('express-handlebars');
 var path = require('path');
 var rootPath = path.normalize(__dirname + '/');
 var port = process.env.PORT || 3000;
+var mkdirp = require('mkdirp');
+
+
+/*==========  MAKE FILE DIRECTORY  ==========*/
+mkdirp('./upload', function(error) {
+    if (error) {
+        console.log(error);
+    }
+});
 
 /*==========  MODEL REQUIRE  ==========*/
 var models = glob.sync(rootPath + '/server/models/*.js');
