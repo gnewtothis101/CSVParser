@@ -133,6 +133,10 @@ module.exports = function(grunt) {
                 src: 'package.json',
                 dest: 'dist/package.json'
             },
+            bower: {
+                src: 'bower.json',
+                dest: 'dist/bower.json'
+            },
             favicon: {
                 src: 'client/favicon.ico',
                 dest: 'dist/client/favicon.ico'
@@ -211,6 +215,7 @@ module.exports = function(grunt) {
         'copy:server',
         'copy:favicon',
         'copy:pkg',
+        'copy:bower',
         'copy:env',
         'copy:upload',
         'copy:procfile',
