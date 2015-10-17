@@ -13,6 +13,7 @@
 
     function datatableController($log, $state, $stateParams, dataService) {
         var vm = this;
+        vm.loading = true;
 
         vm.filename = $stateParams.filename;
 
@@ -29,6 +30,7 @@
         function populate() {
             dataService.getCSV(vm.filename)
                 .then(function(data) {
+                    vm.loading = false;
                     vm.header = data.shift().header;
                     vm.data = data;
                 });

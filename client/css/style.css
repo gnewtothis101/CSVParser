@@ -30,3 +30,7 @@ label.uploadLabel input[type="file"] {
 /*==========  GENERAL PURPOSE STYLING  ==========*/
 body {
   padding-top: 65px; }
+
+.loading img {
+  display: block;
+  margin: 25px auto; }

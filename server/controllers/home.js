@@ -74,10 +74,25 @@ router.post('/api/upload', upload.single('uploadedFile'), function(req, res, nex
             filename: req.file.filename
         });
 
+
+        /**
+         *
+         * ERROR HERE:
+         *
+         * ENOENT,
+         * open 'upload/dataJun-17-2015__1444265720'
+         * Error: ENOENT, open 'upload/dataJun-17-2015__1444265720' at Error (native)'
+         * ------------------------
+         * Occurs when attempting to upload files *only* when deployed to Heroku
+         * Likely to do with directory issues once pushed to Heroku
+         *
+         */
+
+
         // Create readstream from upload folder, pipe to writestream...
         fs.createReadStream('./upload/' + req.file.filename).pipe(writestream);
 
-        // ...when writestream is closed, delete file from server folder and redirect to a page to view the file.
+        // ...when writestream is close, delete file from server folder and redirect to a page to view the file.
         writestream.on('close', function(file) {
             fs.unlink('./upload/' + req.file.filename);
             res.redirect('/#/datatable/' + req.file.filename);

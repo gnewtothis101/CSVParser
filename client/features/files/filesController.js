@@ -13,6 +13,7 @@
 
     function filesController($log, $state, dataService) {
         var vm = this;
+        vm.loading = true;
 
         // Where the files will go!
         vm.files;
@@ -21,6 +22,7 @@
             dataService.getAllFiles()
                 .then(function(data) {
                     data.forEach(function(item) {
+                        vm.loading = false;
 
                         // Attaches filename and date for display in the header
                         item.formattedFilename = item.filename.split('__')[0];

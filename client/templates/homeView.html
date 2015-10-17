@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row text-center">
-        <div class="icons">
+        <div class="icons" id="icons">
             <div class="intro-item col-xs-4">
                 <svg version="1.1" width="100" height="100" class="svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16">
                     <path fill="#444444" d="M0 14h16v1h-16zM16 12v1h-16v-1l2-4h4v2h4v-2h4zM3.5 5l4.5-4.5 4.5 4.5h-3.5v4h-2v-4z"></path>
@@ -30,7 +30,7 @@
                 <form id="uploadForm" enctype="multipart/form-data" action="/api/upload" method="post">
                     <label for="filename" class="uploadLabel btn btn-default">
                         Select a file
-                        <input type="file" id="filename" name="uploadedFile">
+                        <input type="file" id="filename" class="blah" name="uploadedFile">
                     </label>
                     <input type="submit" id="submit" value="Upload File" class="btn btn-default" name="submit">
                 </form>
